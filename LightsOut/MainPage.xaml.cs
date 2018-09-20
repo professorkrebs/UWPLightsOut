@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LightsOut.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -20,9 +21,7 @@ using Windows.UI.Xaml.Shapes;
 
 namespace LightsOut
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
+    
     public sealed partial class MainPage : Page
     {
 
@@ -42,6 +41,15 @@ namespace LightsOut
                     Rectangle rect = new Rectangle();
                     rect.Fill = offBrush;
                     rect.Margin = new Thickness(2);
+
+                    Light light = new Light();
+                    rect.DataContext = light;
+
+                    Binding lightToRectBinding = new Binding();
+                    lightToRectBinding.Path = new PropertyPath("IsOn");
+                    lightToRectBinding.Mode = BindingMode.OneWay;
+
+                    rect.SetBinding(Rectangle.FillProperty, lightToRectBinding);
 
                     Grid.SetColumn(rect, col);
                     Grid.SetRow(rect, row);
